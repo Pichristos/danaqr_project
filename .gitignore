@@ -20,4 +20,5 @@ src/*:Zone.Identifier
 src/qrcode.c.bak
 DanaQR.prc
 DanaQR.bin
-*.deb.1
+*.deb*
+*.deb
