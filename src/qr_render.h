@@ -1,0 +1,24 @@
+#ifndef QR_RENDER_H
+#define QR_RENDER_H
+
+#include <PalmOS.h>
+
+/* Encode/error-correction settings shared with chunker.h's sizing
+ * assumptions. If you change these, re-check CHUNK_PAYLOAD_MAX. */
+#define QR_MIN_VERSION   1
+#define QR_MAX_VERSION   10      /* keep modules >= ~3px at 160x160 */
+#define QR_USE_ECC_MEDIUM 1     /* qrcodegen_Ecc_MEDIUM */
+
+/* Renders one NUL-terminated chunk frame (as produced by
+ * ChunkerBuildChunks) as a QR code into destRect on the current draw
+ * window. Returns true on success, false if encoding failed (e.g.
+ * frame too big for QR_MAX_VERSION -- shouldn't happen if
+ * CHUNK_PAYLOAD_MAX is sized correctly, but we check anyway rather
+ * than trust that invariant blindly).
+ *
+ * destRect should be square-ish; if it isn't, the smaller dimension
+ * is used and the code is centered. */
+Boolean QRRenderChunk(const char *frameText, UInt16 frameLen,
+                       const RectangleType *destRect);
+
+#endif /* QR_RENDER_H */

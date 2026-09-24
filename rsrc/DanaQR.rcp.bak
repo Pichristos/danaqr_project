@@ -1,0 +1,64 @@
+/* DanaQR.rcp -- PilRC resource script.
+ *
+ * Build with:  pilrc DanaQR.rcp
+ * This emits DanaQR.h (constant IDs) alongside the .bin resource
+ * files consumed by build-prc / the Makefile. The IDs below are
+ * exactly what src/main.c expects via "DanaQR_rsrc.h" -- rename the
+ * pilrc-generated header to that, or add -H DanaQR_rsrc.h to the
+ * pilrc invocation (see Makefile) to have it emit that name directly.
+ *
+ * Layout targets the standard 160x160 silkscreen area so this runs
+ * unmodified on any Palm OS 4 device, Dana included -- see README's
+ * "Screen strategy" section for why.
+ */
+
+
+APPLICATIONICONNAME ID 1000 "DanaQR"
+
+VERSION ID 1 "0.1"
+
+FORM ID MainForm AT (0 0 160 160)
+USABLE
+NOFRAME
+MENUID MainMenu
+BEGIN
+    TITLE "DanaQR"
+
+    /* Free-form text entry: paste or type the text to export here.
+     * Multi-line, scrollable, underlined so it's visually obvious
+     * it's an edit field on the grayscale screen. */
+    FIELD ID MainTextField AT (2 16 156 60)
+        FONT 0
+        EDITABLE
+        UNDERLINED
+        MULTIPLELINES
+        MAXCHARS 4000
+        DYNAMICSIZE
+
+    /* QR render target lives in the 152x132 area starting below the
+     * field, per the rectangle hardcoded in main.c's
+     * DrawCurrentChunk() -- kept as a comment marker here since
+     * pilrc doesn't need a control for raw-drawn pixels. */
+
+    BUTTON "Generate" ID GenerateButton AT (2 142 50 14)
+    BUTTON "Cycle" ID CycleToggleButton AT (55 142 40 14)
+    BUTTON "Next" ID NextChunkButton AT (98 142 30 14)
+END
+
+ALERT ID TooLongAlert
+INFORMATION
+BEGIN
+    TITLE "Text Too Long"
+    MESSAGE "That text needs more chunks than this build supports. " \
+            "Shorten it, or raise CHUNK_MAX_COUNT / widen the chunk " \
+            "header in chunker.h and rebuild."
+    BUTTONS "OK"
+END
+
+MENU ID MainMenu
+BEGIN
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About DanaQR..." ID AboutMenuItem
+    END
+END
