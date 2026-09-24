@@ -1,0 +1,8 @@
+*.o
+*.bin
+*.prc
+rsrc-stamp
+src/DanaQR_rsrc.h
+src/*:Zone.Identifier
+src/qrcode.c.bak
+DanaQR
